@@ -21,23 +21,7 @@ exports.item_detail = function (req, res) {
 // Handle item create on POST.
 exports.item_create = (upload.array('image', 5), (req, res) => {
   console.log(req.body)
-  // var obj = {
-  //   name: req.body.name,
-  //   desc: req.body.desc,
-  //   img: {
-  //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-  //     contentType: 'image/png'
-  //   }
-  // }
-  // Image.create(obj, (err, item) => {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  //   else {
-  //     // item.save();
-  //     res.redirect('/');
-  //   }
-  // });
+  res.send(req.body)
 });
 
 
