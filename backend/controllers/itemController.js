@@ -1,5 +1,7 @@
 //https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
-var item = require('../models/item');
+// var Image = require('../models/imageSchema');
+// var Item = require('../models/itemSchema');
+var { upload } = require('../configs/multer')
 
 exports.index = function (req, res) {
   res.send('NOT IMPLEMENTED: Site Home Page');
@@ -15,32 +17,36 @@ exports.item_detail = function (req, res) {
   res.send('NOT IMPLEMENTED: item detail: ' + req.params.id);
 };
 
-// Display item create form on GET.
-exports.item_create_get = function (req, res) {
-  res.send('NOT IMPLEMENTED: item create GET');
-};
 
 // Handle item create on POST.
-exports.item_create_post = function (req, res) {
-  res.send('NOT IMPLEMENTED: item create POST');
-};
+exports.item_create = (upload.array('image', 5), (req, res) => {
+  console.log(req.body)
+  // var obj = {
+  //   name: req.body.name,
+  //   desc: req.body.desc,
+  //   img: {
+  //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+  //     contentType: 'image/png'
+  //   }
+  // }
+  // Image.create(obj, (err, item) => {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  //   else {
+  //     // item.save();
+  //     res.redirect('/');
+  //   }
+  // });
+});
 
-// Display item delete form on GET.
-exports.item_delete_get = function (req, res) {
-  res.send('NOT IMPLEMENTED: item delete GET');
-};
 
 // Handle item delete on POST.
-exports.item_delete_post = function (req, res) {
+exports.item_delete = function (req, res) {
   res.send('NOT IMPLEMENTED: item delete POST');
 };
 
-// Display item update form on GET.
-exports.item_update_get = function (req, res) {
-  res.send('NOT IMPLEMENTED: item update GET');
-};
-
 // Handle item update on POST.
-exports.item_update_post = function (req, res) {
+exports.item_update = function (req, res) {
   res.send('NOT IMPLEMENTED: item update POST');
 };
