@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var imageSchema = new mongoose.Schema({
+  _id: new ObjectID(),
   name: String,
   desc: String,
   img:

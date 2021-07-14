@@ -1,5 +1,5 @@
 //https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
-// var item = require('../models/item');
+var item = require('../models/item');
 
 exports.index = function (req, res) {
   res.send('NOT IMPLEMENTED: Site Home Page');
