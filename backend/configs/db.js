@@ -1,12 +1,9 @@
-const { MongoClient } = require('mongodb')
+//Import the mongoose module
+var mongoose = require('mongoose');
 
-// Connection URL
-const url = 'mongodb://localhost:27017'
-const client = new MongoClient(url)
+//Set up default mongoose connection
+var url = 'mongodb://127.0.0.1/ncc_training';
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => console.log(err.reason));
 
-client.connect(err => {
-  // Database Name
-  console.log('Connected successfully to server')
-  const dbName = 'ncc_training'
-  exports.db = client.db(dbName)
-})
+//Get the default connection
+exports.db = mongoose.connection;
