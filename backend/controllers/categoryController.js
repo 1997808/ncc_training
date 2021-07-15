@@ -16,13 +16,20 @@ exports.category_create = (req, res) => {
     name: req.body.name,
     type: new mongo.ObjectId(req.body.type)
   }
-  db.collection("categories").insertOne(obj, (err, result) => {
+  db.collection("categories").findOne({ "name": req.body.name }, (err, result) => {
     if (err) throw err;
-    else {
-      res.send("success");
+    else if (result == null) {
+      db.collection("categories").insertOne(obj, (err, result) => {
+        if (err) throw err;
+        else {
+          res.send("success");
+        }
+      });
+    } else {
+      res.send("already existed");
     }
   });
-};
+}
 
 // Handle category delete on POST.
 exports.category_delete = (req, res) => {

@@ -29,51 +29,56 @@ exports.item_detail = async (req, res) => {
 
 // Handle item create on POST.
 exports.item_create = (req, res) => {
-  const files = req.files
-  const imageArray = [];
-  if (files) {
-    var n = files.length
-    for (var i = 0; i < n; i++) {
-      var obj = {
-        name: files[i].originalname,
-        desc: req.body.desc,
-        img: {
-          data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + files[i].originalname)),
-          contentType: 'image/jpg, image/png, image/jpeg'
+  db.collection("items").findOne({ "name": req.body.name }, (err, result) => {
+    if (err) throw err;
+    else if (result == null) {
+      const files = req.files
+      const imageArray = [];
+      if (files) {
+        var n = files.length
+        for (var i = 0; i < n; i++) {
+          var obj = {
+            name: files[i].originalname,
+            desc: req.body.desc,
+            img: {
+              data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + files[i].originalname)),
+              contentType: 'image/jpg, image/png, image/jpeg'
+            }
+          }
+
+          imageArray.push(obj);
         }
       }
-
-      imageArray.push(obj);
-    }
-  }
-  db.collection("images").insertMany(imageArray, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.send('error');
-    } else {
-      // var imageId = [];
-      // for (var i = 0; i < n; i++) {
-      //   imageId.push(result.insertedIds[i])
-      // }
-      var itemObj = {
-        name: req.body.name,
-        type: req.body.type,
-        category: req.body.category,
-        price: req.body.price,
-        description: req.body.description,
-        image: result.insertedIds
-      }
-
-      db.collection("items").insertOne(itemObj, (err, result) => {
+      db.collection("images").insertMany(imageArray, (err, result) => {
         if (err) {
           console.log(err);
           res.send('error');
+        } else {
+          // var imageId = [];
+          // for (var i = 0; i < n; i++) {
+          //   imageId.push(result.insertedIds[i])
+          // }
+          var itemObj = {
+            name: req.body.name,
+            type: req.body.type,
+            category: req.body.category,
+            price: req.body.price,
+            description: req.body.description,
+            image: result.insertedIds
+          }
+
+          db.collection("items").insertOne(itemObj, (err, result) => {
+            if (err) {
+              console.log(err);
+              res.send('error');
+            }
+            else {
+              res.send('success');
+            }
+          });
         }
-        else {
-          res.send('success');
-        }
-      });
-    }
+      })
+    } else res.send("already exist");
   })
 };
 

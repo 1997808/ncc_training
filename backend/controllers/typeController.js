@@ -14,15 +14,23 @@ exports.type_create = (req, res) => {
   var obj = {
     name: req.body.name
   }
-  db.collection("types").insertOne(obj, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.send('error');
-    }
-    else {
-      res.send('success');
+  db.collection("types").findOne({ "name": req.body.name }, (err, result) => {
+    if (err) throw err;
+    else if (result == null) {
+      db.collection("types").insertOne(obj, (err, result) => {
+        if (err) {
+          console.log(err);
+          res.send('error');
+        }
+        else {
+          res.send('success');
+        }
+      });
+    } else {
+      res.send("already existed");
     }
   });
+
 };
 
 // Handle type delete on POST.
