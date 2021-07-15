@@ -1,8 +1,7 @@
 var mongoose = require('mongoose');
-var { Image } = require('./imageSchema').schema
+// var { Image } = require('./imageSchema').schema
 
 const itemSchema = new mongoose.Schema({
-  _id: mongoose.Types.ObjectId,
   name: String,
   type: String,
   category: String,

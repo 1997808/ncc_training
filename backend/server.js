@@ -4,7 +4,7 @@ const app = express();
 // var path = require('path');
 require('dotenv').config()
 var itemRouter = require('./routes/item');
-var { db } = require("./configs/db")
+// var { db } = require("./configs/db")
 
 app.use('/', express.static(__dirname));
 app.use(express.urlencoded({ extended: true }))

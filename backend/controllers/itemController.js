@@ -1,8 +1,10 @@
 //https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
 var Image = require('../models/imageSchema');
+var Item = require('../models/itemSchema');
 var fs = require('fs');
 var path = require('path');
 // var Item = require('../models/itemSchema');
+var { db } = require("../configs/db")
 
 
 exports.index = (req, res) => {
@@ -36,19 +38,38 @@ exports.item_create = (req, res) => {
         }
       }
 
-      Image.create(obj, (err, item) => {
+      imageArray.push(obj);
+    }
+  }
+  db.collection("images").insertMany(imageArray, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send('error');
+    } else {
+      var imageId = [];
+      for (var i = 0; i < n; i++) {
+        imageId.push(result.insertedIds[i])
+      }
+      var itemObj = {
+        name: req.body.name,
+        type: req.body.type,
+        category: req.body.category,
+        price: req.body.price,
+        description: req.body.description,
+        image: imageId
+      }
+
+      db.collection("items").insertOne(itemObj, (err, result) => {
         if (err) {
           console.log(err);
+          res.send('error');
         }
         else {
-          item.save();
-          imageArray.push()
+          res.send('success');
         }
       });
     }
-  }
-
-
+  })
 };
 
 
