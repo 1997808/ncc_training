@@ -5,11 +5,10 @@ const app = express();
 require('dotenv').config()
 var itemRouter = require('./routes/item');
 var { db } = require("./configs/db")
-var multipart = require('connect-multiparty');
 
+app.use('/', express.static(__dirname));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(multipart())
 
 app.use('/', itemRouter);
 

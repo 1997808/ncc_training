@@ -3,6 +3,7 @@ var router = express.Router();
 
 // Require controller modules.
 var item_controller = require('../controllers/itemController');
+var { upload } = require('../configs/multer')
 
 /// item ROUTES ///
 
@@ -10,7 +11,7 @@ var item_controller = require('../controllers/itemController');
 router.get('/', item_controller.index);
 
 // POST request for creating item.
-router.post('/item/create', item_controller.item_create);
+router.post('/item/create', upload.array('photos', 5), item_controller.item_create);
 
 // POST request to delete item.
 router.post('/item/:id/delete', item_controller.item_delete);
