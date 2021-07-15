@@ -7,7 +7,7 @@ const itemSchema = new mongoose.Schema({
   category: String,
   price: String,
   description: String,
-  image: [mongoose.Types.ObjectId]
+  image: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Image' }]
 });
 
 module.exports = new mongoose.model('Item', itemSchema);

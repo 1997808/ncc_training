@@ -21,7 +21,6 @@ exports.item_list = (req, res) => {
 // Display detail page for a specific item.
 exports.item_detail = async (req, res) => {
   await db.collection("items").findOne({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
-    console.log(result, "result")
     if (err) throw err;
     else res.send(result);
   });
@@ -52,17 +51,17 @@ exports.item_create = (req, res) => {
       console.log(err);
       res.send('error');
     } else {
-      var imageId = [];
-      for (var i = 0; i < n; i++) {
-        imageId.push(result.insertedIds[i])
-      }
+      // var imageId = [];
+      // for (var i = 0; i < n; i++) {
+      //   imageId.push(result.insertedIds[i])
+      // }
       var itemObj = {
         name: req.body.name,
         type: req.body.type,
         category: req.body.category,
         price: req.body.price,
         description: req.body.description,
-        image: imageId
+        image: result.insertedIds
       }
 
       db.collection("items").insertOne(itemObj, (err, result) => {
@@ -77,7 +76,6 @@ exports.item_create = (req, res) => {
     }
   })
 };
-
 
 // Handle item delete on POST.
 exports.item_delete = (req, res) => {
