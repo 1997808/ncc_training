@@ -11,9 +11,9 @@ var { upload } = require('../configs/multer')
 router.get('/', item_controller.index);
 
 /// item ROUTES ///
-router.post('/item/create', upload.array('photos', 5), item_controller.item_create);
+router.post('/item/create', upload.single('photos'), item_controller.item_create);
 router.post('/item/:id/delete', item_controller.item_delete);
-router.post('/item/:id/update', item_controller.item_update);
+router.post('/item/:id/update', upload.array('photos', 5), item_controller.item_update);
 router.get('/item/:id', item_controller.item_detail);
 router.get('/items', item_controller.item_list);
 

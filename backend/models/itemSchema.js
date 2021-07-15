@@ -6,6 +6,7 @@ const itemSchema = new mongoose.Schema({
   category: { type: Schema.Types.ObjectId, ref: 'Category' },
   price: String,
   description: String,
+  imageMH: { type: mongoose.Schema.Types.ObjectId, ref: 'Image' },
   image: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Image' }]
 });
 

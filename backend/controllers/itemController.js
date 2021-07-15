@@ -32,6 +32,60 @@ exports.item_create = (req, res) => {
   db.collection("items").findOne({ "name": req.body.name }, (err, result) => {
     if (err) throw err;
     else if (result == null) {
+      const file = req.file
+      if (file) {
+        var obj = {
+          name: file.originalname,
+          img: {
+            data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + file.originalname)),
+            contentType: 'image/jpg, image/png, image/jpeg'
+          }
+        }
+      }
+      db.collection("images").insertOne(obj, (err, result) => {
+        if (err) {
+          console.log(err);
+          res.send('error');
+        } else {
+          var itemObj = {
+            name: req.body.name,
+            type: req.body.type,
+            category: req.body.category,
+            price: req.body.price,
+            description: req.body.description,
+            imageMH: result.insertedId
+          }
+
+          db.collection("items").insertOne(itemObj, (err, result) => {
+            if (err) {
+              console.log(err);
+              res.send('error');
+            }
+            else {
+              res.send('success');
+            }
+          });
+        }
+      })
+    } else res.send("already exist");
+  })
+};
+
+// Handle item delete on POST.
+exports.item_delete = (req, res) => {
+  db.collection("items").findOneAndDelete({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
+    if (err) throw err;
+    else {
+      res.send("1 item deleted");
+    }
+  })
+};
+
+// Handle item update on POST.
+exports.item_update = (req, res) => {
+  db.collection("items").findOne({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
+    if (err) throw err;
+    else if (result != null) {
       const files = req.files
       const imageArray = [];
       if (files) {
@@ -39,7 +93,6 @@ exports.item_create = (req, res) => {
         for (var i = 0; i < n; i++) {
           var obj = {
             name: files[i].originalname,
-            desc: req.body.desc,
             img: {
               data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + files[i].originalname)),
               contentType: 'image/jpg, image/png, image/jpeg'
@@ -80,19 +133,4 @@ exports.item_create = (req, res) => {
       })
     } else res.send("already exist");
   })
-};
-
-// Handle item delete on POST.
-exports.item_delete = (req, res) => {
-  db.collection("items").findOneAndDelete({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
-    if (err) throw err;
-    else {
-      res.send("1 item deleted");
-    }
-  })
-};
-
-// Handle item update on POST.
-exports.item_update = (req, res) => {
-  res.send('NOT IMPLEMENTED: item update POST');
 };

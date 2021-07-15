@@ -1,5 +1,5 @@
-//https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
 var { db } = require("../configs/db")
+var mongo = require('mongodb')
 
 // Display list of all types.
 exports.type_list = (req, res) => {
@@ -45,9 +45,16 @@ exports.type_delete = (req, res) => {
 
 // Handle type update on POST.
 exports.type_update = (req, res) => {
-  var newvalues = { $set: { name: req.body.name } };
-  db.collection("types").findOneAndUpdate({ "_id": new mongo.ObjectId(req.params.id) }, newvalues, function (err, res) {
+  db.collection("types").findOne({ "name": req.body.name }, (err, result) => {
     if (err) throw err;
-    else res.send("1 type updated")
-  });
+    else if (result == null) {
+      var newvalues = { $set: { name: req.body.name } };
+      db.collection("types").findOneAndUpdate({ "_id": new mongo.ObjectId(req.params.id) }, newvalues, function (err, result) {
+        if (err) throw err;
+        else res.send("1 type updated")
+      });
+    } else {
+      res.send("already existed");
+    }
+  })
 };

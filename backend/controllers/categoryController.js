@@ -1,4 +1,3 @@
-//https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
 var { db } = require("../configs/db")
 var mongo = require('mongodb')
 
@@ -43,9 +42,16 @@ exports.category_delete = (req, res) => {
 
 // Handle category update on POST.
 exports.category_update = (req, res) => {
-  var newvalues = { $set: { name: req.body.name, type: new mongo.ObjectId(req.body.type) } };
-  db.collection("categories").findOneAndUpdate({ "_id": new mongo.ObjectId(req.params.id) }, newvalues, function (err, res) {
+  db.collection("categories").findOne({ "name": req.body.name }, (err, result) => {
     if (err) throw err;
-    else res.send("1 category updated")
+    else if (result == null) {
+      var newvalues = { $set: { name: req.body.name, type: new mongo.ObjectId(req.body.type) } };
+      db.collection("categories").findOneAndUpdate({ "_id": new mongo.ObjectId(req.params.id) }, newvalues, function (err, result) {
+        if (err) throw err;
+        else res.send("1 category updated")
+      });
+    } else {
+      res.send("already existed");
+    }
   });
 };
