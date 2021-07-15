@@ -79,7 +79,12 @@ exports.item_create = (req, res) => {
 
 // Handle item delete on POST.
 exports.item_delete = (req, res) => {
-  res.send('NOT IMPLEMENTED: item delete POST');
+  db.collection("items").findOneAndDelete({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
+    if (err) throw err;
+    else {
+      res.send("1 item deleted");
+    }
+  })
 };
 
 // Handle item update on POST.

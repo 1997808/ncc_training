@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
-// var { Image } = require('./imageSchema').schema
 
 const itemSchema = new mongoose.Schema({
   name: String,
-  type: String,
-  category: String,
+  type: { type: Schema.Types.ObjectId, ref: 'Type' },
+  category: { type: Schema.Types.ObjectId, ref: 'Category' },
   price: String,
   description: String,
   image: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Image' }]
