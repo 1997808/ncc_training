@@ -1,11 +1,10 @@
 //https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
-var Image = require('../models/imageSchema');
-var Item = require('../models/itemSchema');
+// var Image = require('../models/imageSchema');
+// var Item = require('../models/itemSchema');
 var fs = require('fs');
 var path = require('path');
-// var Item = require('../models/itemSchema');
 var { db } = require("../configs/db")
-
+var mongo = require('mongodb')
 
 exports.index = (req, res) => {
   res.send('NOT IMPLEMENTED: Site Home Page');
@@ -13,12 +12,19 @@ exports.index = (req, res) => {
 
 // Display list of all items.
 exports.item_list = (req, res) => {
-  res.send('NOT IMPLEMENTED: item list');
+  db.collection("items").find({}).toArray((err, result) => {
+    if (err) throw err;
+    else res.send(result);
+  });
 };
 
 // Display detail page for a specific item.
-exports.item_detail = (req, res) => {
-  res.send('NOT IMPLEMENTED: item detail: ' + req.params.id);
+exports.item_detail = async (req, res) => {
+  await db.collection("items").findOne({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
+    console.log(result, "result")
+    if (err) throw err;
+    else res.send(result);
+  });
 };
 
 
