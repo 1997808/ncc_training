@@ -1,13 +1,14 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-var imageSchema = new mongoose.Schema({
+const imageSchema = new mongoose.Schema({
   name: String,
   img:
   {
     data: Buffer,
     contentType: String
   }
-});
+})
 
-//https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/
-module.exports = new mongoose.model('Image', imageSchema);
+// https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/
+// eslint-disable-next-line new-cap
+module.exports = new mongoose.model('Image', imageSchema)

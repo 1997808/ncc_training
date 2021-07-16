@@ -1,57 +1,58 @@
-var { db } = require("../configs/db")
-var mongo = require('mongodb')
+const { db } = require('../configs/db')
+const mongo = require('mongodb')
 
 // Display list of all categories.
-exports.category_list = (req, res) => {
-  db.collection("categories").find({}).toArray((err, result) => {
-    if (err) throw err;
-    else res.send(result);
-  });
-};
+exports.category_list = async (req, res) => {
+  try {
+    const categoryList = await db.collection('categories').find({}).toArray()
+    res.send(categoryList)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 // Handle category create on POST.
-exports.category_create = (req, res) => {
-  var obj = {
-    name: req.body.name,
-    type: new mongo.ObjectId(req.body.type)
-  }
-  db.collection("categories").findOne({ "name": req.body.name }, (err, result) => {
-    if (err) throw err;
-    else if (result == null) {
-      db.collection("categories").insertOne(obj, (err, result) => {
-        if (err) throw err;
-        else {
-          res.send("success");
-        }
-      });
-    } else {
-      res.send("already existed");
+exports.category_create = async (req, res) => {
+  try {
+    const obj = {
+      name: req.body.name,
+      type: new mongo.ObjectId(req.body.type)
     }
-  });
+    const categoryDuplicate = await db.collection('categories').findOne({ name: req.body.name })
+
+    if (!categoryDuplicate) {
+      const categoryInsert = await db.collection('categories').insertOne(obj)
+      res.send(categoryInsert)
+    } else {
+      res.send('already existed')
+    }
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 // Handle category delete on POST.
-exports.category_delete = (req, res) => {
-  db.collection("categories").findOneAndDelete({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
-    if (err) throw err;
-    else {
-      res.send("1 category deleted");
-    }
-  })
-};
+exports.category_delete = async (req, res) => {
+  try {
+    const categoryDuplicate = await db.collection('categories').findOneAndDelete({ _id: new mongo.ObjectId(req.params.id) })
+    res.send(categoryDuplicate)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 // Handle category update on POST.
-exports.category_update = (req, res) => {
-  db.collection("categories").findOne({ "name": req.body.name }, (err, result) => {
-    if (err) throw err;
-    else if (result == null) {
-      var newvalues = { $set: { name: req.body.name, type: new mongo.ObjectId(req.body.type) } };
-      db.collection("categories").findOneAndUpdate({ "_id": new mongo.ObjectId(req.params.id) }, newvalues, function (err, result) {
-        if (err) throw err;
-        else res.send("1 category updated")
-      });
+exports.category_update = async (req, res) => {
+  try {
+    const categoryDuplicate = await db.collection('categories').findOne({ name: req.body.name })
+    if (categoryDuplicate == null) {
+      const newvalues = { $set: { name: req.body.name, type: new mongo.ObjectId(req.body.type) } }
+      const categoryUpdate = await db.collection('categories').findOneAndUpdate({ _id: new mongo.ObjectId(req.params.id) }, newvalues)
+      res.send(categoryUpdate)
     } else {
-      res.send("already existed");
+      res.send('already existed')
     }
-  });
-};
+  } catch (err) {
+    console.log(err)
+  }
+}
