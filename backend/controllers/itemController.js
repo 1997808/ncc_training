@@ -86,49 +86,66 @@ exports.item_update = (req, res) => {
   db.collection("items").findOne({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
     if (err) throw err;
     else if (result != null) {
-      const files = req.files
-      const imageArray = [];
-      if (files) {
-        var n = files.length
+      const gallery = req.files['gallery']
+      const photo = req.files['photo'][0]
+      const galleryArray = [];
+
+      if (photo) {
+        var photoObj = {
+          name: photo.originalname,
+          img: {
+            data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + photo.originalname)),
+            contentType: 'image/jpg, image/png, image/jpeg'
+          }
+        }
+      }
+
+      if (gallery) {
+        var n = gallery.length
         for (var i = 0; i < n; i++) {
           var obj = {
-            name: files[i].originalname,
+            name: gallery[i].originalname,
             img: {
-              data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + files[i].originalname)),
+              data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + gallery[i].originalname)),
               contentType: 'image/jpg, image/png, image/jpeg'
             }
           }
-
-          imageArray.push(obj);
+          galleryArray.push(obj);
         }
       }
-      db.collection("images").insertMany(imageArray, (err, result) => {
+
+      db.collection("images").insertOne(photoObj, (err, result) => {
         if (err) {
           console.log(err);
           res.send('error');
         } else {
-          // var imageId = [];
-          // for (var i = 0; i < n; i++) {
-          //   imageId.push(result.insertedIds[i])
-          // }
-          var itemObj = {
-            name: req.body.name,
-            type: req.body.type,
-            category: req.body.category,
-            price: req.body.price,
-            description: req.body.description,
-            image: result.insertedIds
-          }
-
-          db.collection("items").findOneAndUpdate({ "_id": new mongo.ObjectId(req.params.id) }, { $set: itemObj }, (err, result) => {
+          var photoId = result.insertedId;
+          db.collection("images").insertMany(galleryArray, (err, result) => {
             if (err) {
               console.log(err);
               res.send('error');
+            } else {
+              var itemObj = {
+                name: req.body.name,
+                type: req.body.type,
+                category: req.body.category,
+                price: req.body.price,
+                description: req.body.description,
+                imageMH: photoId,
+                image: result.insertedIds
+              }
+
+              db.collection("items").findOneAndUpdate({ "_id": new mongo.ObjectId(req.params.id) }, { $set: itemObj }, (err, result) => {
+                if (err) {
+                  console.log(err);
+                  res.send('error');
+                }
+                else {
+                  res.send('success');
+                }
+              });
             }
-            else {
-              res.send('success');
-            }
-          });
+          })
         }
       })
     } else res.send("already exist");

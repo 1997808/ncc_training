@@ -7,13 +7,15 @@ var category_controller = require('../controllers/categoryController');
 var type_controller = require('../controllers/typeController');
 
 var { upload } = require('../configs/multer')
+var cpUpload = upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'gallery', maxCount: 4 }])
 
 router.get('/', item_controller.index);
 
+
 /// item ROUTES ///
-router.post('/item/create', upload.single('photos'), item_controller.item_create);
+router.post('/item/create', upload.single('photo'), item_controller.item_create);
 router.post('/item/:id/delete', item_controller.item_delete);
-router.post('/item/:id/update', upload.array('photos', 5), item_controller.item_update);
+router.post('/item/:id/update', cpUpload, item_controller.item_update);
 router.get('/item/:id', item_controller.item_detail);
 router.get('/items', item_controller.item_list);
 
