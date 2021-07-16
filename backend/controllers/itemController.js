@@ -33,7 +33,9 @@ exports.item_create = (req, res) => {
     if (err) throw err;
     else if (result == null) {
       const file = req.file
-      if (file) {
+      if (file == undefined) {
+        res.send("Must have image");
+      } else {
         var obj = {
           name: file.originalname,
           img: {
@@ -41,32 +43,34 @@ exports.item_create = (req, res) => {
             contentType: 'image/jpg, image/png, image/jpeg'
           }
         }
-      }
-      db.collection("images").insertOne(obj, (err, result) => {
-        if (err) {
-          console.log(err);
-          res.send('error');
-        } else {
-          var itemObj = {
-            name: req.body.name,
-            type: req.body.type,
-            category: req.body.category,
-            price: req.body.price,
-            description: req.body.description,
-            imageMH: result.insertedId
-          }
 
-          db.collection("items").insertOne(itemObj, (err, result) => {
-            if (err) {
-              console.log(err);
-              res.send('error');
+        db.collection("images").insertOne(obj, (err, result) => {
+          if (err) {
+            console.log(err);
+            res.send('error');
+          } else {
+            console.log(result)
+            var itemObj = {
+              name: req.body.name,
+              type: req.body.type,
+              category: req.body.category,
+              price: req.body.price,
+              description: req.body.description,
+              imageMH: result.insertedId
             }
-            else {
-              res.send('success');
-            }
-          });
-        }
-      })
+
+            db.collection("items").insertOne(itemObj, (err, result) => {
+              if (err) {
+                console.log(err);
+                res.send('error');
+              }
+              else {
+                res.send('success');
+              }
+            });
+          }
+        })
+      }
     } else res.send("already exist");
   })
 };
@@ -90,7 +94,7 @@ exports.item_update = (req, res) => {
       const photo = req.files['photo'][0]
       const galleryArray = [];
 
-      if (photo) {
+      if (photo != undefined) {
         var photoObj = {
           name: photo.originalname,
           img: {
@@ -100,7 +104,7 @@ exports.item_update = (req, res) => {
         }
       }
 
-      if (gallery) {
+      if (gallery != undefined) {
         var n = gallery.length
         for (var i = 0; i < n; i++) {
           var obj = {

@@ -5,7 +5,9 @@ const app = express();
 require('dotenv').config()
 var itemRouter = require('./routes/item');
 // var { db } = require("./configs/db")
+const morgan = require('morgan')
 
+app.use(morgan("dev"))
 app.use('/', express.static(__dirname));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
