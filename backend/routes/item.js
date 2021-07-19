@@ -2,15 +2,13 @@ const express = require('express')
 const router = express.Router()
 
 // Require controller modules.
-const itemController = require('../controllers/itemController')
-const categoryController = require('../controllers/categoryController')
-const typeController = require('../controllers/typeController')
+const { itemController } = require('../controllers/itemController')
+const { categoryController } = require('../controllers/categoryController')
+const { typeController } = require('../controllers/typeController')
 
 const { upload } = require('../configs/multer')
 const cpUpload = upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'gallery', maxCount: 4 }])
 const { typeValidate, itemCreateValidate } = require('../middlewares/validator')
-
-router.get('/', itemController.index)
 
 /// item ROUTES ///
 router.post('/item/create', upload.single('photo'), itemCreateValidate, itemController.item_create)

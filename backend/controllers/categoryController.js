@@ -1,58 +1,61 @@
 const { db } = require('../configs/db')
 const mongo = require('mongodb')
+const { categoryServices } = require('../services/categoryServices')
 
-// Display list of all categories.
-exports.category_list = async (req, res) => {
-  try {
-    const categoryList = await db.collection('categories').find({}).toArray()
-    res.send(categoryList)
-  } catch (err) {
-    console.log(err)
+class CategoryController {
+  category_list = async (req, res) => {
+    try {
+      const categoryList = await categoryServices.list()
+      res.send(categoryList)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  category_create = async (req, res) => {
+    try {
+      const { name, type } = req.body
+      const categoryDuplicate = await categoryServices.findOne(name)
+
+      if (!categoryDuplicate) {
+        const categoryInsert = await categoryServices.create(name, type)
+        res.send(categoryInsert)
+      } else {
+        res.send('already existed')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  category_delete = async (req, res) => {
+    try {
+      const { id } = req.body
+      const categoryDuplicate = await categoryServices.delete({ id })
+      res.send(categoryDuplicate)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  category_update = async (req, res) => {
+    try {
+      const { id, name, type } = req.body
+      const categoryDuplicate = await categoryServices.findOne(name)
+      if (categoryDuplicate == null) {
+        const categoryUpdate = await categoryServices.update(id, name, type)
+        res.send(categoryUpdate)
+      } else {
+        res.send('already existed')
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 
-// Handle category create on POST.
-exports.category_create = async (req, res) => {
-  try {
-    const obj = {
-      name: req.body.name,
-      type: new mongo.ObjectId(req.body.type)
-    }
-    const categoryDuplicate = await db.collection('categories').findOne({ name: req.body.name })
+const categoryController = new CategoryController()
 
-    if (!categoryDuplicate) {
-      const categoryInsert = await db.collection('categories').insertOne(obj)
-      res.send(categoryInsert)
-    } else {
-      res.send('already existed')
-    }
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-// Handle category delete on POST.
-exports.category_delete = async (req, res) => {
-  try {
-    const categoryDuplicate = await db.collection('categories').findOneAndDelete({ _id: new mongo.ObjectId(req.params.id) })
-    res.send(categoryDuplicate)
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-// Handle category update on POST.
-exports.category_update = async (req, res) => {
-  try {
-    const categoryDuplicate = await db.collection('categories').findOne({ name: req.body.name })
-    if (categoryDuplicate == null) {
-      const newvalues = { $set: { name: req.body.name, type: new mongo.ObjectId(req.body.type) } }
-      const categoryUpdate = await db.collection('categories').findOneAndUpdate({ _id: new mongo.ObjectId(req.params.id) }, newvalues)
-      res.send(categoryUpdate)
-    } else {
-      res.send('already existed')
-    }
-  } catch (err) {
-    console.log(err)
-  }
+module.exports = {
+  categoryController
 }

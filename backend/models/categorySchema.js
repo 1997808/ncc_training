@@ -6,4 +6,7 @@ const categorySchema = new mongoose.Schema({
 })
 
 // eslint-disable-next-line new-cap
-export const Category = new mongoose.model('Category', categorySchema)
+const Category = new mongoose.model('Category', categorySchema)
+module.exports = {
+  Category
+}
