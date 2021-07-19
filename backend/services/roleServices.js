@@ -1,9 +1,9 @@
-const { Type } = require('../models/typeSchema')
+const { Role } = require('../models/roleSchema')
 
-class TypeServices {
+class RoleServices {
   list = async () => {
     try {
-      return await Type.find({})
+      return await Role.find({})
     } catch (err) {
       console.log(err)
     }
@@ -11,7 +11,7 @@ class TypeServices {
 
   findOne = async (name) => {
     try {
-      return await Type.findOne({ name: name })
+      return await Role.findOne({ name: name })
     } catch (err) {
       console.log(err)
     }
@@ -19,10 +19,11 @@ class TypeServices {
 
   create = async (name) => {
     try {
-      const newType = new Type({
+      console.log(name)
+      const newRole = new Role({
         name: name,
       })
-      return await newType.save()
+      return await newRole.save()
     } catch (err) {
       console.log(err)
     }
@@ -30,7 +31,7 @@ class TypeServices {
 
   delete = async (id) => {
     try {
-      return await Type.findOneAndDelete({ _id: id })
+      return await Role.findOneAndDelete({ _id: id })
     } catch (err) {
       console.log(err)
     }
@@ -39,15 +40,15 @@ class TypeServices {
   update = async (id, name) => {
     try {
       const newvalues = { $set: { name: name } }
-      return await Type.findOneAndUpdate({ _id: id }, newvalues)
+      return await Role.findOneAndUpdate({ _id: id }, newvalues)
     } catch (err) {
       console.log(err)
     }
   }
 }
 
-const typeServices = new TypeServices()
+const roleServices = new RoleServices()
 
 module.exports = {
-  typeServices
+  roleServices
 }

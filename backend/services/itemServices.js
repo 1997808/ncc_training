@@ -5,7 +5,7 @@ class ItemServices {
     try {
       return await Item.find({})
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -13,7 +13,7 @@ class ItemServices {
     try {
       return await Item.findOne({ _id: id })
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -21,7 +21,7 @@ class ItemServices {
     try {
       return await Item.findOne({ name: name })
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -29,7 +29,7 @@ class ItemServices {
     try {
       return await Item.create(obj)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -37,7 +37,7 @@ class ItemServices {
     try {
       return await Item.findOneAndDelete({ _id: id })
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -46,7 +46,7 @@ class ItemServices {
       const newvalues = { $set: { ...obj } }
       return await Item.findOneAndUpdate({ _id: id }, newvalues)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 }

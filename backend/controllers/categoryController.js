@@ -6,7 +6,7 @@ class CategoryController {
       const categoryList = await categoryServices.list()
       res.send(categoryList)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -22,7 +22,7 @@ class CategoryController {
         res.send('already existed')
       }
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -32,7 +32,7 @@ class CategoryController {
       const categoryDuplicate = await categoryServices.delete(id)
       res.send(categoryDuplicate)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -48,7 +48,7 @@ class CategoryController {
         res.send('already existed')
       }
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 }

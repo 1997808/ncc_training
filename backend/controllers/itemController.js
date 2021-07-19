@@ -11,7 +11,7 @@ class ItemController {
       const itemList = await itemServices.list()
       res.send(itemList)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -21,7 +21,7 @@ class ItemController {
       const itemDetail = await itemServices.findOne(id)
       res.send(itemDetail)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -58,7 +58,7 @@ class ItemController {
         }
       } else res.send('already exist')
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -68,7 +68,7 @@ class ItemController {
       const itemDelete = await itemServices.delete(id)
       res.send(itemDelete)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -130,7 +130,7 @@ class ItemController {
         res.send(itemUpdate)
       } else res.send("not exist");
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   };
 }

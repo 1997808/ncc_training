@@ -4,7 +4,7 @@ const app = express()
 // var path = require('path');
 require('dotenv').config()
 const indexRouter = require('./routes')
-// var { db } = require("./configs/db")
+var { db } = require("./configs/db")
 const morgan = require('morgan')
 
 app.use(morgan('dev'))

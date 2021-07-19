@@ -7,7 +7,7 @@ class ImageServices {
     try {
       return await Image.find({})
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -15,7 +15,7 @@ class ImageServices {
     try {
       return await Image.findOne({ _id: id })
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -23,7 +23,7 @@ class ImageServices {
     try {
       return await Image.create(photo)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -31,7 +31,7 @@ class ImageServices {
     try {
       return await Image.insertMany(gallery)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -39,7 +39,7 @@ class ImageServices {
     try {
       return await Image.findOneAndDelete({ _id: id })
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -51,7 +51,7 @@ class ImageServices {
       }
       return await Image.findOneAndDelete({ _id: { $in: obj } })
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 }

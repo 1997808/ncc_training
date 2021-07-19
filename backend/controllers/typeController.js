@@ -1,5 +1,3 @@
-const { db } = require('../configs/db')
-const mongo = require('mongodb')
 const { typeServices } = require('../services/typeServices')
 
 class TypeController {
@@ -8,7 +6,7 @@ class TypeController {
       const typeList = await typeServices.list()
       res.send(typeList)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -23,7 +21,7 @@ class TypeController {
         res.send('already existed')
       }
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -33,7 +31,7 @@ class TypeController {
       const typeDelete = await typeServices.delete(id)
       res.send(typeDelete)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -48,7 +46,7 @@ class TypeController {
         res.send('already existed')
       }
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 }

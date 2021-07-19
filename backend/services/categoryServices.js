@@ -5,7 +5,7 @@ class CategoryServices {
     try {
       return await Category.find({})
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -13,7 +13,7 @@ class CategoryServices {
     try {
       return await Category.findOne({ name: name })
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -25,7 +25,7 @@ class CategoryServices {
       })
       return await newCategory.save()
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -33,7 +33,7 @@ class CategoryServices {
     try {
       return await Category.findOneAndDelete({ _id: id })
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 
@@ -42,7 +42,7 @@ class CategoryServices {
       const newvalues = { $set: { name: name, type: type } }
       return await Category.findOneAndUpdate({ _id: id }, newvalues)
     } catch (err) {
-      throw (err)
+      console.log(err)
     }
   }
 }
