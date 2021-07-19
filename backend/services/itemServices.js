@@ -27,14 +27,6 @@ class ItemServices {
     }
   }
 
-  createMany = async (gallery) => {
-    try {
-      return await Item.insertOneMany(gallery)
-    } catch (err) {
-      throw (err)
-    }
-  }
-
   delete = async (id) => {
     try {
       return await Item.findOneAndDelete({ _id: new mongo.ObjectId(id) })
@@ -43,13 +35,10 @@ class ItemServices {
     }
   }
 
-  deleteMany = async (idArr) => {
+  update = async (id, name) => {
     try {
-      var obj = []
-      for (var i = 0; i < idArr.length; i++) {
-        obj.push(new mongo.ObjectId(idArr[i]))
-      }
-      return await Item.findOneAndDelete({ _id: { $in: obj } })
+      const newvalues = { $set: { name: name } }
+      return await Type.findOneAndUpdate({ _id: new mongo.ObjectId(id) }, newvalues)
     } catch (err) {
       throw (err)
     }

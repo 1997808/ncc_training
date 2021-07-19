@@ -30,7 +30,7 @@ class CategoryController {
 
   category_delete = async (req, res) => {
     try {
-      const { id } = req.body
+      const { id } = req.params
       const categoryDuplicate = await categoryServices.delete({ id })
       res.send(categoryDuplicate)
     } catch (err) {
@@ -40,7 +40,8 @@ class CategoryController {
 
   category_update = async (req, res) => {
     try {
-      const { id, name, type } = req.body
+      const { id } = req.params
+      const { name, type } = req.body
       const categoryDuplicate = await categoryServices.findOne(name)
       if (categoryDuplicate == null) {
         const categoryUpdate = await categoryServices.update(id, name, type)

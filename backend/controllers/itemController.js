@@ -4,11 +4,12 @@ const path = require('path')
 const { db } = require('../configs/db')
 const mongo = require('mongodb')
 const { itemServices } = require("../services/itemServices")
+const { imageServices } = require("../services/imageServices")
 
 class ItemController {
   item_list = async (req, res) => {
     try {
-      const itemList = await db.collection('items').find({}).toArray()
+      const itemList = await itemServices.list()
       res.send(itemList)
     } catch (err) {
       console.log(err)
@@ -17,7 +18,8 @@ class ItemController {
 
   item_detail = async (req, res) => {
     try {
-      const itemDetail = await db.collection('items').findOne({ _id: new mongo.ObjectId(req.params.id) })
+      const { id } = req.params
+      const itemDetail = await itemServices.findOne(id)
       res.send(itemDetail)
     } catch (err) {
       console.log(err)
@@ -45,7 +47,6 @@ class ItemController {
               console.log(err)
               res.send('error')
             } else {
-              console.log(result)
               const itemObj = {
                 name: req.body.name,
                 type: req.body.type,
@@ -72,7 +73,8 @@ class ItemController {
 
   item_delete = async (req, res) => {
     try {
-      const itemDelete = await db.collection('items').findOneAndDelete({ _id: new mongo.ObjectId(req.params.id) })
+      const { id } = req.params
+      const itemDelete = await itemServices.delete(id)
       res.send(itemDelete)
     } catch (err) {
       console.log(err)

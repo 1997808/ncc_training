@@ -29,7 +29,7 @@ class TypeController {
 
   type_delete = async (req, res) => {
     try {
-      const { id } = req.body
+      const { id } = req.params
       const typeDelete = await typeServices.delete(id)
       res.send(typeDelete)
     } catch (err) {
