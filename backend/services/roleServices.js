@@ -17,9 +17,16 @@ class RoleServices {
     }
   }
 
+  findMany = async (id) => {
+    try {
+      return await Role.find({ _id: id })
+    } catch (err) {
+      throw (err)
+    }
+  }
+
   create = async (name) => {
     try {
-      throw (name)
       const newRole = new Role({
         name: name,
       })

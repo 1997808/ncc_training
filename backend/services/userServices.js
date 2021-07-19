@@ -17,6 +17,14 @@ class UserServices {
     }
   }
 
+  findOneById = async (id) => {
+    try {
+      return await User.findOne({ _id: id })
+    } catch (err) {
+      throw (err)
+    }
+  }
+
   create = async (username, email, password, roles) => {
     try {
       const newUser = new User({
