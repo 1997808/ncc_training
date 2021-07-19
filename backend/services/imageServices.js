@@ -13,7 +13,7 @@ class ImageServices {
 
   findOne = async (id) => {
     try {
-      return await Image.findOne({ _id: new mongo.ObjectId(id) })
+      return await Image.findOne({ _id: id })
     } catch (err) {
       throw (err)
     }
@@ -21,7 +21,7 @@ class ImageServices {
 
   create = async (photo) => {
     try {
-      return await Image.insertOne(photo)
+      return await Image.create(photo)
     } catch (err) {
       throw (err)
     }
@@ -29,7 +29,7 @@ class ImageServices {
 
   createMany = async (gallery) => {
     try {
-      return await Image.insertOneMany(gallery)
+      return await Image.insertMany(gallery)
     } catch (err) {
       throw (err)
     }
@@ -37,7 +37,7 @@ class ImageServices {
 
   delete = async (id) => {
     try {
-      return await Image.findOneAndDelete({ _id: new mongo.ObjectId(id) })
+      return await Image.findOneAndDelete({ _id: id })
     } catch (err) {
       throw (err)
     }
@@ -47,7 +47,7 @@ class ImageServices {
     try {
       var obj = []
       for (var i = 0; i < idArr.length; i++) {
-        obj.push(new mongo.ObjectId(idArr[i]))
+        obj.push(idArr[i])
       }
       return await Image.findOneAndDelete({ _id: { $in: obj } })
     } catch (err) {

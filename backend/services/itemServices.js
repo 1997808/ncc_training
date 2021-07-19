@@ -13,15 +13,23 @@ class ItemServices {
 
   findOne = async (id) => {
     try {
-      return await Item.findOne({ _id: new mongo.ObjectId(id) })
+      return await Item.findOne({ _id: id })
     } catch (err) {
       throw (err)
     }
   }
 
-  create = async (photo) => {
+  findOneByName = async (name) => {
     try {
-      return await Item.insertOne(photo)
+      return await Item.findOne({ name: name })
+    } catch (err) {
+      throw (err)
+    }
+  }
+
+  create = async (obj) => {
+    try {
+      return await Item.create(obj)
     } catch (err) {
       throw (err)
     }
@@ -29,16 +37,16 @@ class ItemServices {
 
   delete = async (id) => {
     try {
-      return await Item.findOneAndDelete({ _id: new mongo.ObjectId(id) })
+      return await Item.findOneAndDelete({ _id: id })
     } catch (err) {
       throw (err)
     }
   }
 
-  update = async (id, name) => {
+  update = async (id, obj) => {
     try {
-      const newvalues = { $set: { name: name } }
-      return await Type.findOneAndUpdate({ _id: new mongo.ObjectId(id) }, newvalues)
+      const newvalues = { $set: { ...obj } }
+      return await Item.findOneAndUpdate({ _id: id }, newvalues)
     } catch (err) {
       throw (err)
     }

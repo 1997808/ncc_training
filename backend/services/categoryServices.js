@@ -23,7 +23,7 @@ class CategoryServices {
     try {
       const newCategory = new Category({
         name: name,
-        type: new mongo.ObjectId(type)
+        type: type
       })
       return await newCategory.save()
     } catch (err) {
@@ -33,7 +33,7 @@ class CategoryServices {
 
   delete = async (id) => {
     try {
-      return await Category.findOneAndDelete({ _id: new mongo.ObjectId(id) })
+      return await Category.findOneAndDelete({ _id: id })
     } catch (err) {
       throw (err)
     }
@@ -41,8 +41,8 @@ class CategoryServices {
 
   update = async (id, name, type) => {
     try {
-      const newvalues = { $set: { name: name, type: new mongo.ObjectId(type) } }
-      return await Category.findOneAndUpdate({ _id: new mongo.ObjectId(id) }, newvalues)
+      const newvalues = { $set: { name: name, type: type } }
+      return await Category.findOneAndUpdate({ _id: id }, newvalues)
     } catch (err) {
       throw (err)
     }

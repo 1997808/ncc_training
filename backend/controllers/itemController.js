@@ -1,10 +1,9 @@
 // https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
 const fs = require('fs')
 const path = require('path')
-const { db } = require('../configs/db')
-const mongo = require('mongodb')
 const { itemServices } = require("../services/itemServices")
 const { imageServices } = require("../services/imageServices")
+const { removeEmpty } = require("../utils/removeEmpty")
 
 class ItemController {
   item_list = async (req, res) => {
@@ -12,7 +11,7 @@ class ItemController {
       const itemList = await itemServices.list()
       res.send(itemList)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -22,53 +21,45 @@ class ItemController {
       const itemDetail = await itemServices.findOne(id)
       res.send(itemDetail)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
-  item_create = (req, res) => {
-    db.collection('items').findOne({ name: req.body.name }, (err, result) => {
-      if (err) throw err
-      else if (result == null) {
-        const file = req.file
-        if (file === undefined) {
-          res.send('Must have image')
+  item_create = async (req, res) => {
+    try {
+      const { name, type, category, price, description } = req.body
+      const photo = req.file
+      const checkDuplicate = await itemServices.findOneByName(name)
+      if (!checkDuplicate) {
+        if (!photo) {
+          res.send('Must have photo')
         } else {
           const obj = {
-            name: file.originalname,
+            name: photo.originalname,
             img: {
-              data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + file.originalname)),
+              data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + photo.originalname)),
               contentType: 'image/jpg, image/png, image/jpeg'
             }
           }
-
-          db.collection('images').insertOne(obj, (err, result) => {
-            if (err) {
-              console.log(err)
-              res.send('error')
-            } else {
-              const itemObj = {
-                name: req.body.name,
-                type: req.body.type,
-                category: req.body.category,
-                price: req.body.price,
-                description: req.body.description,
-                imageMH: result.insertedId
-              }
-
-              db.collection('items').insertOne(itemObj, (err, result) => {
-                if (err) {
-                  console.log(err)
-                  res.send('error')
-                } else {
-                  res.send('success')
-                }
-              })
+          const photoInsert = await imageServices.create(obj)
+          if (photoInsert) {
+            const itemObj = {
+              name: name,
+              type: type,
+              category: category,
+              price: price,
+              description: description,
+              imageMH: photoInsert.insertedId
             }
-          })
+
+            const itemInsert = await itemServices.create(itemObj)
+            res.send(itemInsert)
+          }
         }
       } else res.send('already exist')
-    })
+    } catch (err) {
+      throw (err)
+    }
   }
 
   item_delete = async (req, res) => {
@@ -77,31 +68,37 @@ class ItemController {
       const itemDelete = await itemServices.delete(id)
       res.send(itemDelete)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
-  item_update = (req, res) => {
-    db.collection("items").findOne({ "_id": new mongo.ObjectId(req.params.id) }, (err, result) => {
-      if (err) throw err;
-      else if (result != null) {
-        const gallery = req.files['gallery']
-        const photo = req.files['photo'][0]
-        var photoId;
-        const galleryArray = [];
-
-        if (photo != undefined) {
+  item_update = async (req, res) => {
+    try {
+      const { id } = req.params
+      const { name, type, category, price, description } = req.body
+      const photo = req.files['photo']
+      const gallery = req.files['gallery']
+      var photoId = null, galleryIds = null;
+      const galleryArray = [];
+      const oldData = await itemServices.findOne(id)
+      if (oldData) {
+        if (photo) {
+          const photoData = photo[0]
           var photoObj = {
-            name: photo.originalname,
+            name: photoData.originalname,
             img: {
-              data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + photo.originalname)),
+              data: fs.readFileSync(path.join(process.cwd() + '/uploads/' + photoData.originalname)),
               contentType: 'image/jpg, image/png, image/jpeg'
             }
           }
+          const insertPhoto = await imageServices.create(photoObj)
+          await imageServices.delete(oldData.imageMH)
+          photoId = insertPhoto._id
         }
 
-        if (gallery != undefined) {
+        if (gallery) {
           var n = gallery.length
+          galleryIds = []
           for (var i = 0; i < n; i++) {
             var obj = {
               name: gallery[i].originalname,
@@ -112,44 +109,29 @@ class ItemController {
             }
             galleryArray.push(obj);
           }
+          const insertGallery = await imageServices.createMany(galleryArray)
+          await imageServices.delete(oldData.image)
+          for (var i = 0; i < insertGallery.length; i++) {
+            galleryIds.push(insertGallery[i]._id)
+          }
         }
 
-        db.collection("images").insertOne(photoObj, (err, result) => {
-          if (err) {
-            console.log(err);
-            res.send('error');
-          } else {
-            photoId = result.insertedId;
-            db.collection("images").insertMany(galleryArray, (err, result) => {
-              if (err) {
-                console.log(err);
-                res.send('error');
-              } else {
-                var itemObj = {
-                  name: req.body.name,
-                  type: req.body.type,
-                  category: req.body.category,
-                  price: req.body.price,
-                  description: req.body.description,
-                  imageMH: photoId,
-                  image: result.insertedIds
-                }
+        var itemObj = {
+          name: name,
+          type: type,
+          category: category,
+          price: price,
+          description: description,
+          imageMH: photoId,
+          image: galleryIds
+        }
 
-                db.collection("items").findOneAndUpdate({ "_id": new mongo.ObjectId(req.params.id) }, { $set: itemObj }, (err, result) => {
-                  if (err) {
-                    console.log(err);
-                    res.send('error');
-                  }
-                  else {
-                    res.send('success');
-                  }
-                });
-              }
-            })
-          }
-        })
-      } else res.send("already exist");
-    })
+        const itemUpdate = await itemServices.update(id, removeEmpty(itemObj))
+        res.send(itemUpdate)
+      } else res.send("not exist");
+    } catch (err) {
+      throw (err)
+    }
   };
 }
 

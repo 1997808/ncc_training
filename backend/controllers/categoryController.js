@@ -1,5 +1,3 @@
-// const { db } = require('../configs/db')
-const mongo = require('mongodb')
 const { categoryServices } = require('../services/categoryServices')
 
 class CategoryController {
@@ -31,7 +29,7 @@ class CategoryController {
   category_delete = async (req, res) => {
     try {
       const { id } = req.params
-      const categoryDuplicate = await categoryServices.delete({ id })
+      const categoryDuplicate = await categoryServices.delete(id)
       res.send(categoryDuplicate)
     } catch (err) {
       console.log(err)
