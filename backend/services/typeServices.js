@@ -5,7 +5,7 @@ class TypeServices {
     try {
       return await Type.find({})
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -13,7 +13,7 @@ class TypeServices {
     try {
       return await Type.findOne({ name: name })
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -24,7 +24,7 @@ class TypeServices {
       })
       return await newType.save()
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -32,7 +32,7 @@ class TypeServices {
     try {
       return await Type.findOneAndDelete({ _id: id })
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -41,7 +41,7 @@ class TypeServices {
       const newvalues = { $set: { name: name } }
       return await Type.findOneAndUpdate({ _id: id }, newvalues)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 }

@@ -6,7 +6,7 @@ class UserController {
       const userList = await userServices.list()
       res.send(userList)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -14,7 +14,7 @@ class UserController {
     try {
       const { username, email, password, roles } = req.body
       const userDuplicate = await userServices.findOne(username)
-      console.log(userDuplicate)
+      throw (userDuplicate)
       if (userDuplicate == null) {
         const userInsert = await userServices.create(username, email, password, roles)
         res.send(userInsert)
@@ -22,7 +22,7 @@ class UserController {
         res.send('already existed')
       }
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -32,7 +32,7 @@ class UserController {
       const userDuplicate = await userServices.delete(id)
       res.send(userDuplicate)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -48,7 +48,7 @@ class UserController {
         res.send('already existed')
       }
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 }

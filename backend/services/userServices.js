@@ -5,7 +5,7 @@ class UserServices {
     try {
       return await User.find({})
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -13,7 +13,7 @@ class UserServices {
     try {
       return await User.findOne({ username: username })
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -27,7 +27,7 @@ class UserServices {
       })
       return await newUser.save()
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -35,7 +35,7 @@ class UserServices {
     try {
       return await User.findOneAndDelete({ _id: id })
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -51,7 +51,7 @@ class UserServices {
       }
       return await User.findOneAndUpdate({ _id: id }, newvalues)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 }

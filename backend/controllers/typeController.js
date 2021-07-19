@@ -6,7 +6,7 @@ class TypeController {
       const typeList = await typeServices.list()
       res.send(typeList)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -21,7 +21,7 @@ class TypeController {
         res.send('already existed')
       }
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -31,7 +31,7 @@ class TypeController {
       const typeDelete = await typeServices.delete(id)
       res.send(typeDelete)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -46,7 +46,7 @@ class TypeController {
         res.send('already existed')
       }
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 }

@@ -11,7 +11,7 @@ class ItemController {
       const itemList = await itemServices.list()
       res.send(itemList)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -21,7 +21,7 @@ class ItemController {
       const itemDetail = await itemServices.findOne(id)
       res.send(itemDetail)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -49,7 +49,7 @@ class ItemController {
               category: category,
               price: price,
               description: description,
-              imageMH: photoInsert.insertedId
+              imageMH: photoInsert._id
             }
 
             const itemInsert = await itemServices.create(itemObj)
@@ -58,7 +58,7 @@ class ItemController {
         }
       } else res.send('already exist')
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -68,7 +68,7 @@ class ItemController {
       const itemDelete = await itemServices.delete(id)
       res.send(itemDelete)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -130,7 +130,7 @@ class ItemController {
         res.send(itemUpdate)
       } else res.send("not exist");
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   };
 }

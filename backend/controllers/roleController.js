@@ -6,7 +6,7 @@ class RoleController {
       const roleList = await roleServices.list()
       res.send(roleList)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -21,7 +21,7 @@ class RoleController {
         res.send('already existed')
       }
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -31,7 +31,7 @@ class RoleController {
       const roleDelete = await roleServices.delete(id)
       res.send(roleDelete)
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 
@@ -46,7 +46,7 @@ class RoleController {
         res.send('already existed')
       }
     } catch (err) {
-      console.log(err)
+      throw (err)
     }
   }
 }
