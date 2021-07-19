@@ -17,6 +17,26 @@ const checkNumeric = (field, val, err) => {
   if (!validator.isNumeric(val)) { return err.push(field + ' can only contain number') }
 }
 
+const checkEmail = (val, err) => {
+  if (!validator.isEmail(val)) { return err.push('This is not an email') }
+}
+
+const userCreateValidate = (req, res, next) => {
+  const errors = []
+  const { username, email, password } = req.body
+
+  checkAvailable('username', username, errors)
+  checkAlphaNumeric('Username', username, errors)
+  checkEmail(email, errors)
+  checkAvailable('password', password, errors)
+
+  if (errors.length === 0) {
+    next()
+  } else {
+    res.send(errors)
+  }
+}
+
 const typeValidate = (req, res, next) => {
   const errors = []
   const { name } = req.body
@@ -53,5 +73,6 @@ const itemCreateValidate = (req, res, next) => {
 
 module.exports = {
   typeValidate,
-  itemCreateValidate
+  itemCreateValidate,
+  userCreateValidate
 }

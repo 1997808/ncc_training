@@ -14,7 +14,7 @@ class RoleController {
     try {
       const { name } = req.body
       const roleDuplicate = await roleServices.findOne(name)
-      if (roleDuplicate == null) {
+      if (!roleDuplicate) {
         const roleInsert = await roleServices.create(name)
         res.send(roleInsert)
       } else {
