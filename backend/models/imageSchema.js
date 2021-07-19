@@ -11,4 +11,8 @@ const imageSchema = new mongoose.Schema({
 
 // https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/
 // eslint-disable-next-line new-cap
-module.exports = new mongoose.model('Image', imageSchema)
+const Image = new mongoose.model('Image', imageSchema)
+
+module.exports = {
+  Image
+}

@@ -4,4 +4,8 @@ const typeSchema = new mongoose.Schema({
   name: String
 })
 // eslint-disable-next-line new-cap
-module.exports = new mongoose.model('Type', typeSchema)
+const Type = new mongoose.model('Type', typeSchema)
+
+module.exports = {
+  Type
+}

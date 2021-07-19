@@ -1,10 +1,11 @@
 const { db } = require('../configs/db')
 const mongo = require('mongodb')
+const { typeServices } = require('../services/typeServices')
 
 class TypeController {
   type_list = async (req, res) => {
     try {
-      const typeList = await db.collection('types').find({}).toArray()
+      const typeList = await typeServices.list()
       res.send(typeList)
     } catch (err) {
       console.log(err)
@@ -13,12 +14,10 @@ class TypeController {
 
   type_create = async (req, res) => {
     try {
-      const obj = {
-        name: req.body.name
-      }
-      const typeDuplicate = await db.collection('types').findOne({ name: req.body.name })
+      const { name } = req.body
+      const typeDuplicate = await typeServices.findOne(name)
       if (typeDuplicate == null) {
-        const typeInsert = await db.collection('types').insertOne(obj)
+        const typeInsert = await typeServices.create(name)
         res.send(typeInsert)
       } else {
         res.send('already existed')
@@ -30,7 +29,8 @@ class TypeController {
 
   type_delete = async (req, res) => {
     try {
-      const typeDelete = await db.collection('types').findOneAndDelete({ _id: new mongo.ObjectId(req.params.id) })
+      const { id } = req.body
+      const typeDelete = await typeServices.delete(id)
       res.send(typeDelete)
     } catch (err) {
       console.log(err)
@@ -39,10 +39,10 @@ class TypeController {
 
   type_update = async (req, res) => {
     try {
-      const newvalues = { $set: { name: req.body.name } }
-      const typeDuplicate = await db.collection('types').findOne({ name: req.body.name })
+      const { id, name } = req.body
+      const typeDuplicate = await typeServices.findOne(name)
       if (typeDuplicate == null) {
-        const typeUpdate = await db.collection('types').findOneAndUpdate({ _id: new mongo.ObjectId(req.params.id) }, newvalues)
+        const typeUpdate = await typeServices.update(id, name)
         res.send(typeUpdate)
       } else {
         res.send('already existed')

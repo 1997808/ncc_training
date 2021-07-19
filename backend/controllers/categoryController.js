@@ -1,4 +1,4 @@
-const { db } = require('../configs/db')
+// const { db } = require('../configs/db')
 const mongo = require('mongodb')
 const { categoryServices } = require('../services/categoryServices')
 

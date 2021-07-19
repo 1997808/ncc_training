@@ -10,4 +10,7 @@ const itemSchema = new mongoose.Schema({
   image: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Image' }]
 })
 // eslint-disable-next-line new-cap
-module.exports = new mongoose.model('Item', itemSchema)
+const Item = new mongoose.model('Item', itemSchema)
+module.exports = {
+  Item
+}
