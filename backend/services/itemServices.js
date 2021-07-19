@@ -1,5 +1,3 @@
-// const { db } = require('../configs/db')
-const mongo = require('mongodb')
 const { Item } = require('../models/itemSchema')
 
 class ItemServices {

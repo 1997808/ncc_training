@@ -1,5 +1,5 @@
 // const { db } = require('../configs/db')
-const mongo = require('mongodb')
+// const mongo = require('mongodb')
 const { Image } = require('../models/imageSchema')
 
 class ImageServices {

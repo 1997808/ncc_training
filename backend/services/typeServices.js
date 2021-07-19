@@ -1,5 +1,3 @@
-// const { db } = require('../configs/db')
-const mongo = require('mongodb')
 const { Type } = require('../models/typeSchema')
 
 class TypeServices {
@@ -32,7 +30,7 @@ class TypeServices {
 
   delete = async (id) => {
     try {
-      return await Type.findOneAndDelete({ _id: new mongo.ObjectId(id) })
+      return await Type.findOneAndDelete({ _id: id })
     } catch (err) {
       throw (err)
     }
@@ -41,7 +39,7 @@ class TypeServices {
   update = async (id, name) => {
     try {
       const newvalues = { $set: { name: name } }
-      return await Type.findOneAndUpdate({ _id: new mongo.ObjectId(id) }, newvalues)
+      return await Type.findOneAndUpdate({ _id: id }, newvalues)
     } catch (err) {
       throw (err)
     }
