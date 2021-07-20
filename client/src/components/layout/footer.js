@@ -1,28 +1,52 @@
 import { Logo } from "../../assets/svg"
-import { SearchIcon, UserIcon, ShoppingCartIcon } from '@heroicons/react/outline'
 
 export const Footer = () => {
   return (
-    <div className="grid grid-flow-col grid-cols-6 gap-4 h-20">
-      <div className="col-span-1">
-        <div className="h-full flex items-center px-5">
-          <Logo />
+    <div className="bg-gray-100 h-96 pt-20 pb-8">
+      <div className="container grid grid-flow-col grid-cols-6 gap-4 h-full mx-auto">
+        <div className="col-span-2">
+          <div className="h-full px-5">
+            <div className="mb-5">
+              <Logo />
+            </div>
+            <div className="text-sm text-gray-600">
+              We are a skilled team of professionals in the field of software development. We use our passion for development to deliver the best software applications. With the combination of technology, know-how and great communication, we are able to create complete solutions for our clients.
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="col-span-4 flex justify-center">
-        <ul className="flex h-full">
-          <li className="flex items-center px-5"><h3 className="text-base">Home</h3></li>
-          <li className="flex items-center px-5"><h3 className="text-base">Product</h3></li>
-          <li className="flex items-center px-5"><h3 className="text-base">Portfolio</h3></li>
-          <li className="flex items-center px-5"><h3 className="text-base">Lookbook</h3></li>
-          <li className="flex items-center px-5"><h3 className="text-base">Blog</h3></li>
-        </ul>
-      </div>
-      <div className="col-span-1">
-        <div className="flex h-full">
-          <li className="flex items-center px-3"><SearchIcon className="h-5 w-5 text-gray-500" /></li>
-          <li className="flex items-center px-3"><UserIcon className="h-5 w-5 text-gray-500" /></li>
-          <li className="flex items-center px-3"><ShoppingCartIcon className="h-5 w-5 text-gray-500" /></li>
+        <div className="col-span-1">
+          <ul className="h-full px-5">
+            <li className="mb-5"><h3 className="text-base">Categories</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Shirt</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Dress</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Denim</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Shoes</h3></li>
+          </ul>
+        </div>
+        <div className="col-span-1">
+          <ul className="h-full px-5">
+            <li className="mb-5"><h3 className="text-base">Infomation</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">About Us</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Contact Us</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Terms</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Exchanges</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Delivery</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Privacy Policy</h3></li>
+          </ul>
+        </div>
+        <div className="col-span-2">
+          <ul className="h-full px-5">
+            <li className="mb-5"><h3 className="text-base">Contact Us</h3></li>
+            <li className="my-2">
+              <h3 className="text-sm text-gray-600">Get connected! We would love to hear from you. Please fill in the form below, leave a message and we will contact with you as soon as possible.</h3>
+            </li>
+            <li className="my-2">
+              <h3 className="text-sm text-gray-600">Address: 184 Main Rd E, St Albans
+                VIC 3021, Australia</h3>
+            </li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Mail: contact@company.com</h3></li>
+            <li className="my-2"><h3 className="text-sm text-gray-600">Phone: +001 2233 456</h3></li>
+          </ul>
         </div>
       </div>
     </div>
