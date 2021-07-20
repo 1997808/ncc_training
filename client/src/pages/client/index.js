@@ -1,3 +1,9 @@
+import { Slider } from "../../components/slider"
+
 export const Home = () => {
-  return <h3>Home</h3>;
+  return (
+    <div>
+      <Slider />
+    </div>
+  );
 }
