@@ -1,5 +1,6 @@
 import {
-  useHistory
+  useHistory,
+  Link
 } from "react-router-dom";
 import { useAuth } from "../utils/provideAuth"
 
@@ -19,6 +20,16 @@ export function AuthButton() {
       </button>
     </p>
   ) : (
-    <p>You are not logged in.</p>
+    <div>
+      <p>You are not logged in.</p>
+      <ul>
+        <li>
+          <Link to="/public">Public Page</Link>
+        </li>
+        <li>
+          <Link to="/protected">Protected Page</Link>
+        </li>
+      </ul>
+    </div>
   );
 }
