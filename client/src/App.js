@@ -15,7 +15,7 @@ import { ProvideAuth } from "./utils/provideAuth"
 import { UserLayout } from "./components/layout/userLayout"
 
 import { Home } from "./pages/client/index"
-import { ProductList } from "./pages/client/productList"
+import { Product } from "./pages/client/product"
 import { Page404 } from "./pages/page404"
 
 export default function App() {
@@ -31,7 +31,10 @@ export default function App() {
             <UserLayout>
               <Switch>
                 <Route path="/products">
-                  <ProductList />
+                  <Product />
+                </Route>
+                <Route path="/product/:id">
+                  <Product />
                 </Route>
                 <Route path="/login">
                   <LoginPage />
