@@ -1,4 +1,4 @@
-import { ButtonAddCart } from "./button"
+import { ButtonCartIcon } from "./button"
 
 export const ProductCard = ({ image, name, price }) => {
   return (
@@ -9,7 +9,7 @@ export const ProductCard = ({ image, name, price }) => {
         </div>
         <div className="absolute w-full h-full left-0 top-0 text-white opacity-0 transform transition duration-300 group-hover:opacity-100">
           <div className="flex flex-col justify-center items-center h-full">
-            <ButtonAddCart />
+            <ButtonCartIcon />
           </div>
         </div>
       </div>
