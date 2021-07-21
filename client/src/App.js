@@ -6,8 +6,8 @@ import {
 } from "react-router-dom";
 import { AdminRoute } from "./pages/backend/index"
 
-import { ProtectedPage } from "./pages/backend/protectedPage";
-import { PrivateRoute } from "./utils/privateRoute";
+// import { ProtectedPage } from "./pages/backend/protectedPage";
+// import { PrivateRoute } from "./utils/privateRoute";
 import { LoginPage } from "./pages/login";
 // import { AuthButton } from "./components/authButton";
 import { ProvideAuth } from "./utils/provideAuth"
@@ -15,7 +15,7 @@ import { ProvideAuth } from "./utils/provideAuth"
 import { UserLayout } from "./components/layout/userLayout"
 
 import { Home } from "./pages/client/index"
-import { Product } from "./pages/client/product"
+import { ProductList } from "./pages/client/productList"
 import { Page404 } from "./pages/page404"
 
 export default function App() {
@@ -30,15 +30,15 @@ export default function App() {
           <Route>
             <UserLayout>
               <Switch>
-                <Route path="/public">
-                  <Product />
+                <Route path="/products">
+                  <ProductList />
                 </Route>
                 <Route path="/login">
                   <LoginPage />
                 </Route>
-                <PrivateRoute path="/protected">
+                {/* <PrivateRoute path="/protected">
                   <ProtectedPage />
-                </PrivateRoute>
+                </PrivateRoute> */}
                 <Route exact path="/">
                   <Home />
                 </Route>
