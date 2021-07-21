@@ -16,6 +16,7 @@ import { UserLayout } from "./components/layout/userLayout"
 
 import { Home } from "./pages/client/index"
 import { Product } from "./pages/client/product"
+import { ProductDetail } from "./pages/client/productDetail"
 import { Page404 } from "./pages/page404"
 
 export default function App() {
@@ -34,7 +35,7 @@ export default function App() {
                   <Product />
                 </Route>
                 <Route path="/product/:id">
-                  <Product />
+                  <ProductDetail />
                 </Route>
                 <Route path="/login">
                   <LoginPage />

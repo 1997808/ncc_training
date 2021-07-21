@@ -19,11 +19,6 @@ export const ProductList = () => {
         <ProductCard image={DemoImage} name={"Analogue Strap"} price={34} />
         <ProductCard image={DemoImage} name={"Analogue Strap"} price={34} />
         <ProductCard image={DemoImage} name={"Analogue Strap"} price={34} />
-
-        <ProductCard image={DemoImage} name={"Analogue Strap"} price={34} />
-        <ProductCard image={DemoImage} name={"Analogue Strap"} price={34} />
-        <ProductCard image={DemoImage} name={"Analogue Strap"} price={34} />
-        <ProductCard image={DemoImage} name={"Analogue Strap"} price={34} />
       </div>
     </>
   );
