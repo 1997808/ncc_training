@@ -5,3 +5,11 @@ export const Button = () => {
     </div>
   );
 }
+
+export const ButtonWhite = ({ name, url }) => {
+  return (
+    <div className="h-10 w-40 bg-white flex justify-center items-center cursor-pointer border border-gray-200">
+      <p className="text-gray-800 text-sm font-semibold">{name}</p>
+    </div>
+  );
+}
