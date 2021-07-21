@@ -3,7 +3,6 @@ import { RecentlyViewed } from "../../components/recentlyViewed"
 import { ProductDesc } from "../../components/productDesc"
 import { ProductImage } from "../../components/productImage"
 
-
 export const ProductDetail = () => {
   return (
     <div>

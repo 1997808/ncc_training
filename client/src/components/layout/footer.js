@@ -1,3 +1,6 @@
+import {
+  Link
+} from "react-router-dom";
 import { Logo } from "../../assets/svg"
 
 export const Footer = () => {
@@ -7,7 +10,9 @@ export const Footer = () => {
         <div className="col-span-2">
           <div className="h-full px-5">
             <div className="mb-5">
-              <Logo />
+              <Link to="/">
+                <Logo />
+              </Link>
             </div>
             <div className="text-sm text-gray-500 leading-6">
               We are a skilled team of professionals in the field of software development. We use our passion for development to deliver the best software applications. With the combination of technology, know-how and great communication, we are able to create complete solutions for our clients.

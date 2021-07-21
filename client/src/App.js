@@ -18,11 +18,13 @@ import { Home } from "./pages/client/index"
 import { Product } from "./pages/client/product"
 import { ProductDetail } from "./pages/client/productDetail"
 import { Page404 } from "./pages/page404"
+import ScrollToTop from "./utils/scrollToTop"
 
 export default function App() {
   return (
     <ProvideAuth>
       <Router>
+        <ScrollToTop />
         <Switch>
           <Route path="/admin">
             <AdminRoute />

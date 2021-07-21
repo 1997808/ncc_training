@@ -5,7 +5,6 @@ import { PromoteBanner } from "../../components/banner"
 import { OurProduct } from "../../components/ourProduct"
 import { PolicyList } from "../../components/policyList"
 
-
 export const Home = () => {
   return (
     <div>
