@@ -4,6 +4,7 @@ import {
   useLocation
 } from "react-router-dom";
 import { useAuth } from "../utils/provideAuth"
+import { Login } from "../components/login"
 
 export function LoginPage() {
   let history = useHistory();
@@ -20,6 +21,7 @@ export function LoginPage() {
   return (
     <div>
       <p>You must log in to view the page at {from.pathname}</p>
+      <Login />
       <button onClick={login}>Log in</button>
     </div>
   );

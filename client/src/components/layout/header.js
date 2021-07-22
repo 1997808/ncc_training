@@ -25,9 +25,15 @@ export const Header = () => {
       </div>
       <div className="col-span-1">
         <div className="flex h-full">
-          <li className="flex items-center px-3"><SearchIcon className="h-5 w-5 text-gray-500" /></li>
-          <li className="flex items-center px-3"><UserIcon className="h-5 w-5 text-gray-500" /></li>
-          <li className="flex items-center px-3"><ShoppingCartIcon className="h-5 w-5 text-gray-500" /></li>
+          <li className="flex items-center px-3">
+            <Link to="/"><SearchIcon className="h-5 w-5 text-gray-500" /></Link>
+          </li>
+          <li className="flex items-center px-3">
+            <Link to="/login"><UserIcon className="h-5 w-5 text-gray-500" /></Link>
+          </li>
+          <li className="flex items-center px-3">
+            <Link to="/"><ShoppingCartIcon className="h-5 w-5 text-gray-500" /></Link>
+          </li>
         </div>
       </div>
     </div>

@@ -33,3 +33,11 @@ export const ButtonAddCart = () => {
     </div>
   );
 }
+
+export const ButtonSubmitLogin = ({ url }) => {
+  return (
+    <div className="h-10 w-40 bg-white transform transition duration-300 hover:bg-gray-800 flex justify-center items-center cursor-pointer rounded-full">
+      <ShoppingCartIcon className="w-6 h-6 text-gray-500 transform transition duration-300 hover:text-white" />
+    </div>
+  );
+}
